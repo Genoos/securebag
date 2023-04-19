@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { Schema } from "mongoose"
 import user from "./user.js"
 import group from "./group.js"
 
@@ -13,9 +13,20 @@ const fileSchema = new Schema({
         required: true,
         ref: group,
     },
+    name: {
+        type: String,
+        required: true,
+    },
     directory: {
         type: Boolean,
         default: false,
+    },
+    link: {
+        type: String,
+        default: 'no-link',
+    },
+    parent: {
+        type: Schema.Types.ObjectId,
     },
     children: {
         type: Array,
@@ -29,5 +40,6 @@ const fileSchema = new Schema({
 
 fileSchema.index({ user_id: 1, group_id: 1 }, { unique: true })
 fileSchema.index({ group_id: 1, user_id: 1 }, { unique: true })
+fileSchema.index({ name: 1 })
 
 export default mongoose.model("file", fileSchema)
