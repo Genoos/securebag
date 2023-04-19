@@ -10,7 +10,7 @@ export default async function s3Uploadv2(files, keys) {
     const params = files.map((file, index) => {
         return {
             Bucket: process.env.AWS_BUCKET_NAME,
-            Key: '/' + keys[index],
+            Key: '/upload' + keys[index],
             Body: file.buffer,
             ContentType: file.mimetype,
         }
@@ -36,5 +36,4 @@ export default async function s3Uploadv2(files, keys) {
             })
         })
     )
-    // return results
 }
