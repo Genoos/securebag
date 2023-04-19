@@ -89,7 +89,7 @@ async function s3Uploadv2(files, keys, user_mail) {
     const params = files.map((file, index) => {
         return {
             Bucket: process.env.AWS_BUCKET_NAME,
-            Key: '/upload' + keys[index],
+            Key: 'upload/' + keys[index],
             Body: file.buffer,
             ContentType: file.mimetype,
         }
@@ -112,6 +112,9 @@ async function s3Uploadv2(files, keys, user_mail) {
                 } else {
                     console.log(data)
                 }
+                io.sockets.to(user_mail).emit('finish', {
+                    status: data
+                })
             })
         })
     )
