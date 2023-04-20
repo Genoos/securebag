@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useEffect,useContext } from "react";
 import { AiFillThunderbolt } from "react-icons/ai";
-// import { AddFolder } from "./AddFolder";
-// import { useFolder } from "../hooks/useFolder";
+import { AddFolder } from "./AddFolder";
+
 import { useParams } from 'react-router-dom'
-// import { AddFile } from "./AddFile";
+import AuthContext from "../contexts/AuthContext";
+
+import { AddFile } from "./AddFile";
 
 
 const Sidebar = () => {
-  let { folderId } = useParams()
-  if (folderId === undefined) {
-    folderId = null;
+  let { fileId } = useParams();
+  if (fileId === undefined) {
+    fileId = null;
   }
-  // const state = useFolder(folderId);
- 
-  // console.log("folderstate sidebar", state);
+  const { currentUser } = useContext(AuthContext);
 
-
+  useEffect(() => {},[fileId])
   return (
     <>
       <div className="md:bg-black bg-green-500 fixed pt-16 h-screen px-4 border-t-2">
@@ -23,11 +23,11 @@ const Sidebar = () => {
           <h2 className="text-white text-[20px] font-bold">Folder Menu</h2>
         </div>
         {/* input  */}
-        {/* <AddFile currentFolder = {state.folder}/> */}
+        <AddFolder fileId = {fileId}/>
         
         {/* create folder */}
         
-        {/* <AddFolder currentFolder = {state.folder}/> */}
+        <AddFile fileId = {fileId}/>
         
 
       </div>

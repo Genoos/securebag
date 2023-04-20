@@ -22,12 +22,23 @@ export default function UserController() {
                 return { ...e, errno: 403 }
             }
         },
-        getfile: async function ({email,passwd}){
+        getfile: async function ({user_id, file_id}){
+            if(file_id == null){
+
+                try{ 
+                    const result = await file.find({ user_id: user_id ,location:"/"})
+                    console.log("user files ", result)
+                    return result
+                }catch(e){
+                    return {...e,errno:404}
+                }
+            }
+            
+        },
+        getsub: async function ({parent}){
             try{
-                const user = await user.findOne({ email, passwd })
-                const result = await file.find({ user_id: user._id })
-                console.log("user files ", result)
-        return result
+                const result = await file.find({parent:parent})
+                return result
             }catch(e){
                 return {...e,errno:404}
             }

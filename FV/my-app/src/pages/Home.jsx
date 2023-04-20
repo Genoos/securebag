@@ -1,7 +1,7 @@
 import React from 'react'
 import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
-// import { DashBoard } from '../components/DashBoard'
+import { DashBoard } from '../components/DashBoard'
 
 export const Home = () => {
   return (
@@ -14,7 +14,7 @@ export const Home = () => {
         <Sidebar/>
       </div>
       <div className='basis-[80%] border '>
-        {/* <DashBoard/> */}
+        <DashBoard/>
       </div>
     </div> 
     </>

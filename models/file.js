@@ -6,12 +6,12 @@ const fileSchema = new Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: user,
+        
     },
     group_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: group,
+
     },
     name: {
         type: String,

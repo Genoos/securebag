@@ -16,8 +16,8 @@ function App() {
             <Route path="/login" element={<Login />} />
 
             <Route element={<PrivateRoutes />}>
-              <Route path="/home" element={<Home />} />
-              {/* <Route path="/folder/:folderId" element={<Home />} /> */}
+              <Route path="/home" element={<Home />} exact/>
+              <Route path="/getsub/:fileId" element={<Home />}  />
             </Route>
           </Routes>
         </Router>
