@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose,{Schema} from "mongoose"
 import user from "./user.js"
 
 const groupSchema = new Schema({
