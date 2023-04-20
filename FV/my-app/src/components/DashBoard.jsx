@@ -1,7 +1,7 @@
 import React,{useEffect, useState,useContext} from "react";
-import { useFolder } from "../hooks/useFolder";
 import { useParams } from "react-router-dom";
 import { File } from "./File";
+import { Folder } from "./Folder";
 import AuthContext from "../contexts/AuthContext";
 
 
@@ -55,13 +55,22 @@ export const DashBoard = () => {
       <div className="pt-16 bg-slate-800 h-screen">
         <h1 className="text-2xl text-center">Dashboard</h1>
         <div className="flex flex-wrap justify-center">
-          {children &&
-            children.map((child) => (
-              <div className="p-4">
-
-                <File file={child} />
-              </div>
-            ))}
+        {children &&
+          children.map((child) => {
+            if (child.directory) {
+              return (
+                <div className="p-4">
+                  <Folder file={child} />
+                </div>
+              );
+            } else {
+              return (
+                <div className="p-4">
+                  <File file={child} />
+                </div>
+              );
+            }
+          })}
             
         </div>
       </div>

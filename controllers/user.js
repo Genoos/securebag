@@ -2,6 +2,7 @@ import user from "../models/user.js"
 import file from "../models/file.js"
 import mongoose from "mongoose"
 
+
 export default function UserController() {
     return {
         login: async function ({ email, passwd }) {
@@ -41,6 +42,28 @@ export default function UserController() {
                 return result
             }catch(e){
                 return {...e,errno:404}
+            }
+        },
+        createfolder: async function ({user_id, group_id, name,directory, location, parent}){
+            try{  
+                if(directory){
+                    const new_file = new file({user_id, group_id, name, parent, location,directory})
+                    result = await new_file.save()
+                    console.log("file created ", result)
+                    return result
+                }
+            }catch(e){
+                return {...e,errno:403}
+            }
+        },
+        createfile: async function ({user_id, group_id, name, link, location, parent}){
+            try{  
+                const new_file = new file({user_id, group_id, name, parent, location,link})
+                result = await new_file.save()
+                console.log("file created ", result)
+                return result
+            }catch(e){
+                return {...e,errno:403}
             }
         }
     }

@@ -3,9 +3,28 @@ import AuthContext from "../contexts/AuthContext";
 
 export const AddFile = ( fileId ) => {
   const { currentUser } = useContext(AuthContext);
-  console.log("fileId", fileId);
+  
   function handleUpload(e) {
+    e.preventDefault();
+    const file = e.target.files[0];
+    console.log("file", file);
+    let data = {
+      user_id: currentUser._id,
+      parent: fileId.fileId,
+      name: file.name,
+      group_id: currentUser._id,
+      directory: false,
+      location: "test",
+    };
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("data", JSON.stringify(data));
 
+    const response = fetch("http://127.0.0.1:3001/upload",{
+      method: "POST",
+      body: formData,
+
+    }).then((response) => response.json()).then("file uploaded")
   }
 
   return (

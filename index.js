@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import multer from "multer"
 import user from "./routes/user.js"
+import UserController from "./controllers/user.js"
 
 dotenv.config()
 const app = express()
@@ -13,6 +14,8 @@ const PORT = process.env.PORT
 const HOST = process.env.HOST
 const MONGO = process.env.MONGO
 const SOCKET_PORT = process.env.SOCKET_PORT
+const userCtrl = UserController()
+
 app.use(cors())
 app.use(express.json())
 
@@ -32,12 +35,15 @@ const uploadStorage = multer({
 app.post('/upload', uploadStorage.array('file'), async (req, res) => {
     try {
         let names = req.files.map(file => file.originalname)
-        const result = s3Uploadv2(req.files, names, 'sandyblaze911@gmail.com')
+    
+        const result = s3Uploadv2(req.files, names, 'sandyblaze911@gmail.com',req.body) 
         res.status(200).json({ status: "success", result })
     } catch (err) {
         res.status(400).json({ status: "failed" })
     }
 })
+
+
 
 
 app.use((error, req, res, next) => {
@@ -82,7 +88,7 @@ io.on('connection', (socket) => {
 
 import S3 from "aws-sdk/clients/s3.js"
 
-async function s3Uploadv2(files, keys, user_mail) {
+async function s3Uploadv2(files, keys, user_mail,body) {
     const s3 = new S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -111,7 +117,13 @@ async function s3Uploadv2(files, keys, user_mail) {
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log(data)
+                    const car = JSON.parse(body.data)
+                    car.name = keys[0]
+                    car.link = data.Location
+
+                    console.log("bodyyyyy",car)
+                    userCtrl.createfile(car)
+            
                 }
                 io.sockets.to(user_mail).emit('finish', {
                     status: data

@@ -27,6 +27,31 @@ app.route('/getsub')
         res.status(200).json(await userCtrl.getsub(req.body))
     })
 
+app.route('/createFolder').post(
+     async (req, res) => {
+        try{
+            console.log("req body",req.body)
+            let result = await userCtrl.createfolder(req.body)
+            res.status(200).json({status:"success",result})
+        }catch(e){
+            console.log(e)
+        }
+    })
+
+app.route('/createFile')
+    .post(async (req, res) => {
+        try{
+            req.body.link = "https://www.google.com"
+            console.log("req body",req.body)
+            let result = await userCtrl.createfile(req.body)
+            res.status(200).json({status:"success",result})
+        }catch(e){
+            console.log(e)
+        }
+
+})
+    
+
 
 
 const user = app

@@ -1,37 +1,36 @@
 import React, { useContext } from "react";
-import { addDoc, collection } from "firebase/firestore";
 import AuthContext from "../contexts/AuthContext";
-import { useParams } from "react-router-dom";
+
 
 
 
 export const AddFolder = (fileId) => {
   const { currentUser } = useContext(AuthContext);
   function handlesubmit(e) {
+    const folderName = e.target[0].value;
+    let data = {
+      user_id: currentUser._id,
+      parent: fileId.fileId,
+      name: folderName,
+      group_id: currentUser._id,
+      directory: true,
+      location: "test",
 
-
+    }
+    console.log("data", data);
     e.preventDefault();
-    console.log("fileId iiiin addfolder", fileId)
+    
+    const response = fetch("http://127.0.0.1:3001/user/createFolder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: currentUser._id, parent: fileId.fileId, name: folderName , group_id: currentUser._id ,directory:true,location:"test" }),
 
-  //   let curfld = currentFolder.currentFolder;
+    }).then((response) => response.json()).then((folder) =>{
+      console.log("files", folder);
+    })
 
-  //   let curpath = [...curfld.path];
-  //   if (curfld.path !== []) {
-  //     curpath.push({ name: curfld.name, id: curfld.id });
-  //     console.log("curpath in addfolder", curpath);
-  //   }
-
-  //   const folderName = e.target[0].value;
-  //   const data = {
-  //     name: folderName,
-  //     parentId: curfld.id,
-  //     path: curpath,
-  //   };
-
-  //   const colRef = collection(db, "users", currentUser.uid, "folders");
-  //   addDoc(colRef, { ...data }).then((docRef) => {
-  //     console.log("Document written with ID: ", docRef.id);
-  //   });
   }
 
   return (
