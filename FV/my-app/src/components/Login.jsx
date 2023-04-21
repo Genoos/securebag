@@ -24,10 +24,11 @@ const Login = () => {
     try {
       setLoading(true);
       setError("");
-
+      
       await login(email, passwd);
       console.log("called login");
       navigate("/home")
+      
     } catch(err) {
       console.log("error", err);
       setError("Failed to Login");

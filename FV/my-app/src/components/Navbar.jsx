@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 
 const Navbar = () => {
-  const { currentUser,logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+  
   const navigate = useNavigate();
 
   const  handlelogout =async () => {

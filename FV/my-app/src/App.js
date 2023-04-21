@@ -1,15 +1,19 @@
 import Register from "./components/Register";
 import Login from "./components/Login";
 import { Home } from "./pages/Home";
-import { AuthProvider } from "./contexts/AuthContext";
+import AuthContext from "./contexts/AuthContext";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { PrivateRoutes } from "./utils/PrivateRoute";
+import { useEffect,useContext } from "react";
 // import { genrateNewKeys,encrypt,decrypt } from "./utils/crypto";
 
 function App() {
+  const {currentUser,setCurrentUser} = useContext(AuthContext);
+
+  
   return (
     <>
-      <AuthProvider>
+      
         <Router>
           <Routes>
             <Route path="/register" element={<Register />} />
@@ -21,7 +25,7 @@ function App() {
             </Route>
           </Routes>
         </Router>
-      </AuthProvider>
+  
       
     </>
   );

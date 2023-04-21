@@ -1,8 +1,18 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import AuthContext from "../contexts/AuthContext";
 
 export const AddFile = ( fileId ) => {
-  const { currentUser } = useContext(AuthContext);
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  const [formData, setFormData] = useState()
+
+  function upload(){
+    fetch("http://127.0.0.1:3001/upload",{
+      method: "POST",
+      body: formData,
+
+    }).then((response) => response.json()).then(setTimeout(() => {window.location.reload()}, 1000)).catch((error) => console.log({error}))
+  }
   
   function handleUpload(e) {
     e.preventDefault();
@@ -19,12 +29,7 @@ export const AddFile = ( fileId ) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("data", JSON.stringify(data));
-
-    const response = fetch("http://127.0.0.1:3001/upload",{
-      method: "POST",
-      body: formData,
-
-    }).then((response) => response.json()).then("file uploaded")
+    setFormData(formData);
   }
 
   return (
@@ -42,7 +47,7 @@ export const AddFile = ( fileId ) => {
           type="file"
           onChange={handleUpload}
         />
-        <button type="submit" class="relative inline-flex items-center justify-center p-0.5 mt-6  mr-2 ml-20 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+        <button type="submit" onClick={upload} class="relative inline-flex items-center justify-center p-0.5 mt-6  mr-2 ml-20 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
               <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                 Upload
               </span>
