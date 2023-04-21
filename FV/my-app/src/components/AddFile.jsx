@@ -26,9 +26,11 @@ export const AddFile = ( fileId ) => {
       directory: false,
       location: "test",
     };
+    console.log("data file", data);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("data", JSON.stringify(data));
+    console.log("formData", formData)
     setFormData(formData);
   }
 

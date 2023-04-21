@@ -5,8 +5,9 @@ import AuthContext from "../contexts/AuthContext";
 
 
 export const AddFolder = (fileId) => {
-  const { currentUser } = useContext(AuthContext);
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   function handlesubmit(e) {
+    e.preventDefault();
     const folderName = e.target[0].value;
     let data = {
       user_id: currentUser._id,
@@ -17,8 +18,7 @@ export const AddFolder = (fileId) => {
       location: "test",
 
     }
-    console.log("data", data);
-    e.preventDefault();
+  
     
     const response = fetch("http://127.0.0.1:3001/user/createFolder", {
       method: "POST",
